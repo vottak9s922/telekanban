@@ -1,11 +1,16 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/joho/godotenv"
+	"github.com/telekanban/internal/db"
+	"github.com/telekanban/internal/infrastruction/persistence/postgres"
 	"go.uber.org/zap"
 )
 
@@ -23,6 +28,13 @@ func main() {
 	logger, _ := zap.NewDevelopment()
 	defer logger.Sync()
 	sugar := logger.Sugar()
+
+	if err := db.Connect(); err != nil {
+		log.Fatalf("DB Connect failed: %v", err)
+	}
+	defer db.Pool.Close()
+
+	boardRepo := postgres.NewBoardRepo(db.Pool)
 
 	bot, err := tgbotapi.NewBotAPI(token)
 	if err != nil {
@@ -54,6 +66,24 @@ func main() {
 		switch msgText {
 		case "/start":
 			reply = "hey, this is the kanban bot!"
+		case "/boards":
+			owner := "tg_" + fmt.Sprintf("%d", chatID)
+			boards, err := boardRepo.FindByOwner(context.Background(), owner)
+			if err != nil {
+				sugar.Error(err)
+				reply = "Error fetching boards"
+				break
+			}
+			if len(boards) == 0 {
+				reply = "No boards yet"
+			} else {
+				var sb strings.Builder
+				sb.WriteString("Your boards:\n")
+				for _, b := range boards {
+					sb.WriteString("• *" + b.Name + "• (created " + b.CreatedAt.Format("2006-01-02") + ")\n")
+				}
+				reply = sb.String()
+			}
 		case "/help":
 			reply = "/start, /help"
 		default:
