@@ -5,7 +5,6 @@ import (
 
 	"github.com/georgysavva/scany/v2/pgxscan"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/telekanban/internal/application/ports"
 	"github.com/telekanban/internal/domain"
 )
 
@@ -13,7 +12,7 @@ type BoardRepo struct {
 	pool *pgxpool.Pool
 }
 
-func NewBoardRepo(pool *pgxpool.Pool) ports.BoardRepository {
+func NewBoardRepo(pool *pgxpool.Pool) domain.BoardRepository {
 	return &BoardRepo{pool: pool}
 }
 
