@@ -2,7 +2,7 @@
 
 // Call this function to fetch boards from the backend and render them
 function fetchBoards(): void {
-  fetch("/boards")
+  fetch("http://localhost:8080/boards?owner_id=test_owner")
     .then(async (response) => {
       if (!response.ok) throw new Error(await response.text());
       return response.json();
