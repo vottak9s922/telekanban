@@ -5,9 +5,7 @@ CREATE TABLE IF NOT EXISTS boards (
   owner_id TEXT NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WIth TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-
-  UNIQUE (name, owner_id)
+  UNIQUE(name, owner_id)
 );
-
 -- +goose Down
 DROP TABLE boards;

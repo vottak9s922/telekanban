@@ -17,7 +17,7 @@ func NewListUsecase(r domain.ListRepository) *ListUsecase {
 	return &ListUsecase{ListRepo: r}
 }
 
-func (u *ListUsecase) Create(ctx context.Context, name, board_id string, position *int) (*domain.List, error) {
+func (u *ListUsecase) Create(ctx context.Context, name, board_id string, position int) (*domain.List, error) {
 	if name == "" {
 		return nil, fmt.Errorf("List should have a name")
 	}
@@ -30,7 +30,7 @@ func (u *ListUsecase) Create(ctx context.Context, name, board_id string, positio
 		ID:        uuid.NewString(),
 		BoardID:   board_id,
 		Name:      name,
-		Position:  *position,
+		Position:  position,
 		CreatedAt: time.Now().UTC(),
 		UpdatedAt: time.Now().UTC(),
 	}

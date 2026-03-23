@@ -20,7 +20,7 @@ func (r *ListRepo) Create(ctx context.Context, list *domain.List) error {
 	_, err := r.pool.Exec(ctx,
 		`INSERT INTO lists (id, board_id, name, position, created_at, updated_at)
 		 VALUES $1, $2, $3, $4, $5, $6
-		 ON CONFLICT (name) DO NOTHING`,
+		 ON CONFLICT (name, board_id) DO NOTHING`,
 		list.ID, list.BoardID, list.Name, list.Position, list.CreatedAt, list.UpdatedAt,
 	)
 

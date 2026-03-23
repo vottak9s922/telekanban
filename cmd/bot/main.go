@@ -9,7 +9,7 @@ import (
 	"github.com/telekanban/internal/application/usecases"
 	"github.com/telekanban/internal/db"
 	"github.com/telekanban/internal/handlers"
-	"github.com/telekanban/internal/infrastruction/persistence/postgres"
+	"github.com/telekanban/internal/infrastructure/persistence/postgres"
 )
 
 func main() {

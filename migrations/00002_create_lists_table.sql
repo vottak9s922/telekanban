@@ -6,11 +6,11 @@ CREATE TABLE IF NOT EXISTS lists (
   position INT NOT NULL DEFAULT 0,
   created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-
-  UNIQUE (board_id, name)
+  UNIQUE(board_id, name)
 );
 
 CREATE INDEX idx_lists_board_id ON lists(board_id);
 
 -- +goose Down
+DROP INDEX IF EXISTS idx_lists_board_id;
 DROP TABLE lists;
