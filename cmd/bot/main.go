@@ -27,6 +27,10 @@ func main() {
 	boardUC := usecases.NewBoardUsecase(boardRepo)
 	boardHandler := handlers.NewBoardHandler(boardUC)
 
+	listRepo := postgres.NewListRepo(db.Pool)
+	listUC := usecases.NewListUsecase(listRepo)
+	listHandler := handlers.NewListHandler(listUC)
+
 	r := gin.Default()
 	r.Use(cors.Default())
 
