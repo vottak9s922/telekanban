@@ -17,7 +17,7 @@ func NewListUsecase(r domain.ListRepository) *ListUsecase {
 	return &ListUsecase{ListRepo: r}
 }
 
-func (u *ListUsecase) Create(ctx context.Context, name, board_id string, position int) (*domain.List, error) {
+func (u *ListUsecase) CreateList(ctx context.Context, name, board_id string, position int) (*domain.List, error) {
 	if name == "" {
 		return nil, fmt.Errorf("List should have a name")
 	}

@@ -8,23 +8,23 @@ import (
 	"github.com/telekanban/internal/domain"
 )
 
-type mockRepo struct {
+type mockBoardsRepo struct {
 	createCalled bool
 	lastBoard    *domain.Board
 }
 
-func (m *mockRepo) Create(ctx context.Context, board *domain.Board) error {
+func (m *mockBoardsRepo) Create(ctx context.Context, board *domain.Board) error {
 	m.createCalled = true
 	m.lastBoard = board
 	return nil
 }
 
-func (m *mockRepo) FindByOwner(ctx context.Context, ownerID string) ([]*domain.Board, error) {
+func (m *mockBoardsRepo) FindByOwner(ctx context.Context, ownerID string) ([]*domain.Board, error) {
 	return nil, nil
 }
 
 func TestCreateBoard_Success(t *testing.T) {
-	repo := &mockRepo{}
+	repo := &mockBoardsRepo{}
 	uc := NewBoardUsecase(repo)
 
 	board, err := uc.CreateBoard(context.Background(), "My Board", "test_owner")
@@ -37,7 +37,7 @@ func TestCreateBoard_Success(t *testing.T) {
 }
 
 func TestCreateBoard_Invalid(t *testing.T) {
-	repo := &mockRepo{}
+	repo := &mockBoardsRepo{}
 	uc := NewBoardUsecase(repo)
 
 	board, err := uc.CreateBoard(context.Background(), "", "test_owner")
