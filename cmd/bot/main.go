@@ -37,5 +37,8 @@ func main() {
 	r.GET("/boards", boardHandler.List)
 	r.POST("/boards", boardHandler.Create)
 
+	r.GET("/lists", listHandler.List)
+	r.POST("/lists", listHandler.Create)
+
 	r.Run(":8080")
 }

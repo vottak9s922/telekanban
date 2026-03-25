@@ -40,6 +40,7 @@ func (h *ListHandler) List(c *gin.Context) {
 	boardID := c.Query("board_id")
 	if boardID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "BoardID should be specified"})
+		return
 	}
 	lists, err := h.UC.ListRepo.FindByBoard(c, boardID)
 	if err != nil {
