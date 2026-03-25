@@ -28,6 +28,7 @@ func (h *ListHandler) Create(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
+
 	list, err := h.UC.CreateList(c, input.Name, input.BoardID, input.Position)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -37,7 +38,7 @@ func (h *ListHandler) Create(c *gin.Context) {
 }
 
 func (h *ListHandler) List(c *gin.Context) {
-	boardID := c.Query("board_id")
+	boardID := c.Param("board_id")
 	if boardID == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "BoardID should be specified"})
 		return
