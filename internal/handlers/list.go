@@ -18,18 +18,18 @@ func NewListHandler(uc *usecases.ListUsecase) *ListHandler {
 
 type CreateListInput struct {
 	Name     string `json:"name" binding:"required"`
-	BoardID  string `json:"board_id" binding:"required"`
 	Position int    `json:"position" binding:"required"`
 }
 
 func (h *ListHandler) Create(c *gin.Context) {
+	boardID := c.Param("board_id")
 	var input CreateListInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
 
-	list, err := h.UC.CreateList(c, input.Name, input.BoardID, input.Position)
+	list, err := h.UC.CreateList(c, input.Name, boardID, input.Position)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
